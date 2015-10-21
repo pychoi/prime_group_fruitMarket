@@ -1,11 +1,26 @@
 var apple = {};
 var orange = {};
-var fruitArray = [apple, orange];
+var banana = {};
+var pear = {};
+var fruitArray = [apple, orange, banana, pear];
 
 $(document).ready(function(){
 
+apple.name = "Apple";
+orange.name = "Orange";
+banana.name = "Banana";
+pear.name = "Pear";
+
+// for (var i=0; i<fruitArray.length; i++){
+	
+// }
+
+// apple.marketPrice = 0.51;
+// orange.marketPrice = 9.98;
+
 for (var i=0; i<fruitArray.length; i++){
-	fruitArray[i].marketPrice = originalMarketPrice(0.5, 9.99);
+	fruitArray[i].marketPrice = originalMarketPrice(0.50, 9.99);
+	//$('#priceChange').append("<p id='" + i +"'>$" + fruitArray[i].marketPrice + "</p>");
 }
 
 priceChange();
@@ -19,29 +34,33 @@ function originalMarketPrice(min, max) {
 }
 
 function randomNumber() {
-	//var change = Math.random() - 0.5;
-	//console.log(change);
 
+$('#priceChange').empty();
 	for (var i=0; i<fruitArray.length; i++){
 		
-		//fruitArray[i].marketPrice = parseInt(fruitArray[i].marketPrice) + (Math.random() - 0.5); 
-		var temp = parseInt(fruitArray[i].marketPrice) + (Math.random() - 0.5);
-		console.log("This is math.random: ", (Math.random() - 0.5));
+		var change = Math.random() - 0.5;
+		var temp = Number(fruitArray[i].marketPrice) + change;
 
+		//console.log("this is temp: ", temp, "this is change: ", change, "this is mktprice", fruitArray[i].marketPrice);
+		
 			if (temp >= 0.50 && temp <= 9.99){
 				fruitArray[i].marketPrice = temp;
-				$('#'+ i).replaceWith("<p id='" + i +"'>" + fruitArray[i].marketPrice + "</p>");
+				$('#priceChange').append("<p id='" + i +"'>" + fruitArray[i].name + "<br>$" + fruitArray[i].marketPrice.toFixed(2) + "</p>");
+				//$('#fruitNames').append("<p>" + fruitArray[i].name + "</p>");
+
+				//$('#'+ i).replaceWith("<p id='" + i +"'>" + fruitArray[i].marketPrice + "</p>");
 			} 
 				else if (temp < 0.50) {
-				fruitArray[i].marketPrice = fruitArray[i].marketPrice + Math.abs(Math.random() - 0.5);
-				console.log("This is Math.abs: ", Math.abs(Math.random() - 0.5));
-				$('#'+ i).replaceWith("<p id='" + i +"'>" + fruitArray[i].marketPrice + "</p>");
+					fruitArray[i].marketPrice = temp + Math.abs(change*2);
+					//console.log("this is less than range", fruitArray[i].marketPrice, temp, Math.abs(change) * 2);
+					$('#priceChange').append("<p id='" + i +"'>" + fruitArray[i].name + "<br>$" + fruitArray[i].marketPrice.toFixed(2) + "</p>");
+					console.log("this is below");
 			}
-			//console.log(fruitArray[i].marketPrice);
-			// 	else if (fruitArray[i].marketPrice > 9.99) {
-			// 	fruitArray[i].marketPrice = parseInt(fruitArray[i].marketPrice) - Math.abs(Math.random() - 0.5);
-			// 	$('#'+ i).replaceWith("<p id='" + i +"'>" + fruitArray[i].marketPrice + "</p>");
-			// }
+				else if (temp > 9.99) {
+					fruitArray[i].marketPrice = temp - Math.abs(change*2);
+					$('#priceChange').append("<p id='" + i +"'>" + fruitArray[i].name + "<br>$" + fruitArray[i].marketPrice.toFixed(2) + "</p>");
+					console.log("this is above");
+			}
 		
 
 
@@ -52,7 +71,7 @@ function randomNumber() {
 }
 
 function priceChange() {
-	setInterval(function(){ fluctuation = randomNumber().toFixed(2);}, 5000);
+	setInterval(function(){randomNumber();}, 1000);
 
 
 	//fruitArray[i].prevMarketPrice = fruitArray[i].marketPrice;
